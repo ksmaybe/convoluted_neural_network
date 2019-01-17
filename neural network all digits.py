@@ -134,7 +134,7 @@ X=train_lst
 y=train_label
 
 
-fg=open("test results.txt",'a+')
+fg=open("test results 1x4 1.txt",'a+')
 for times in range(10):
     print("test: ",times,file=fg)
     print("test: ",times)

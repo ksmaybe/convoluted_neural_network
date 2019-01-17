@@ -142,9 +142,20 @@ for j in range(len(test_labeler)):
 #         y=train_label[i]
 #         o=net.feed_forward(X)
 #         net.train(X,y)
+cc1=[]
+cc2=[]
+x=0
+for i in range(14):
+    cc1.append(x)
+    x+=1
+    cc1.append(x)
+    x+=1
+    cc2.append(x)
+    x+=1
+    cc2.append(x)
+    x+=1
 
-
-fg=open("test results 1x4 3.txt",'a+')
+fg=open("test results 2x2 2.txt",'a+')
 #first
 for times in range(10):
     start=time.time()
@@ -157,7 +168,16 @@ for times in range(10):
         print("e:",e,"  ","hidden size: ",net.hidden_size,file=fg)
         print("e:",e,"  ","hidden size: ",net.hidden_size)
         for i in range(len(train_lst)):
-            X=train_lst[i]
+            xx=train_lst[i]
+            X=xx.copy()
+            kk=0
+            for i in range(7):
+                for j in range(len(cc1)):
+                    X[kk]=xx[28*i+cc1[j]]
+                    kk+=1
+                for j in range(len(cc2)):
+                    X[kk]=xx[cc2[j]]
+                    kk+=1
             y=train_label[i]
             o=net.feed_forward(X)
             net.train(X,y)
@@ -166,7 +186,7 @@ for times in range(10):
         lstp.append(net.new_error)
         print(net.new_error,file=fg)
         print(net.new_error)
-        if net.old_error-net.new_error<5 and e>10 or net.new_error<100:  #after 10 epoches and change in sum of error between epoch very small
+        if net.old_error-net.new_error<5 and e>5 or net.new_error<100:  #after 10 epoches and change in sum of error between epoch very small
             break
         net.old_error=net.new_error
         net.new_error=0
@@ -176,8 +196,17 @@ for times in range(10):
     confusion_matrix=np.array([0]*100).reshape(10,10)
     success=0
     for i in range(len(test_label)):
-
-        o=net.feed_forward(test_lst[i])
+        xx=test_lst[i]
+        X=xx.copy()
+        kk=0
+        for i in range(7):
+            for j in range(len(cc1)):
+                X[kk]=xx[28*i+cc1[j]]
+                kk+=1
+            for j in range(len(cc2)):
+                X[kk]=xx[cc2[j]]
+                kk+=1
+        o=net.feed_forward(X)
         x=0
         y=0
         for j in range(10):
