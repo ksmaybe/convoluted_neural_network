@@ -142,6 +142,8 @@ for j in range(len(test_labeler)):
 #         y=train_label[i]
 #         o=net.feed_forward(X)
 #         net.train(X,y)
+lst=np.array([i for i in range(28*28)])
+lst1=lst.copy()
 cc1=[]
 cc2=[]
 x=0
@@ -154,8 +156,17 @@ for i in range(14):
     x+=1
     cc2.append(x)
     x+=1
+kk=0
+for i in range(14):
+    for j in range(len(cc1)):
+        lst1[kk]=lst[56*i+cc1[j]]
+        kk+=1
+    for j in range(len(cc2)):
+        lst1[kk]=lst[56*i+cc2[j]]
+        kk+=1
 
-fg=open("test results 2x2 2.txt",'a+')
+
+fg=open("test results 2x2 1.txt",'a+')
 #first
 for times in range(10):
     start=time.time()
@@ -169,15 +180,9 @@ for times in range(10):
         print("e:",e,"  ","hidden size: ",net.hidden_size)
         for i in range(len(train_lst)):
             xx=train_lst[i]
-            X=xx.copy()
-            kk=0
-            for i in range(7):
-                for j in range(len(cc1)):
-                    X[kk]=xx[28*i+cc1[j]]
-                    kk+=1
-                for j in range(len(cc2)):
-                    X[kk]=xx[cc2[j]]
-                    kk+=1
+            X=[0 for i in range(784)]
+            for i in range(784):
+                X[i]=xx[lst1[i]]
             y=train_label[i]
             o=net.feed_forward(X)
             net.train(X,y)
@@ -197,15 +202,9 @@ for times in range(10):
     success=0
     for i in range(len(test_label)):
         xx=test_lst[i]
-        X=xx.copy()
-        kk=0
-        for i in range(7):
-            for j in range(len(cc1)):
-                X[kk]=xx[28*i+cc1[j]]
-                kk+=1
-            for j in range(len(cc2)):
-                X[kk]=xx[cc2[j]]
-                kk+=1
+        X=[0 for i in range(784)]
+        for i in range(784):
+            X[i]=xx[lst1[i]]
         o=net.feed_forward(X)
         x=0
         y=0
