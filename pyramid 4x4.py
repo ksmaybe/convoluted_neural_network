@@ -33,7 +33,7 @@ class Neural_NetWork(object):
 
 
     def feed_forward(self,X):
-        self.zz=(X*self.Weight_1).reshape((196,4))
+        self.zz=(X*self.Weight_1).reshape((49,16))
         self.z=np.sum(self.zz,axis=1)+bias  #sum of Weight and output
         self.z2=sigmoid(self.z)                      #hidden layer activation
         self.z3=np.dot(self.z2,self.Weight_2)+bias
@@ -62,7 +62,7 @@ class Neural_NetWork(object):
 
         self.d_Oh_Nh=sigmoid_derivative(self.z2)
         yy=self.d_Et_Oh*self.d_Oh_Nh
-        self.d_Et_w=X*(yy.repeat(4)).reshape((1,4*self.hidden_size))
+        self.d_Et_w=X*(yy.repeat(16)).reshape((1,16*self.hidden_size))
         self.Weight_1-=lr*self.d_Et_w
 
 
@@ -146,34 +146,47 @@ lst=[i for i in range(28*28)]
 lst1=copy.copy(lst)
 cc1=[]
 cc2=[]
+cc3=[]
+cc4=[]
 x=0
-for i in range(14):
-    cc1.append(x)
-    x+=1
-    cc1.append(x)
-    x+=1
-    cc2.append(x)
-    x+=1
-    cc2.append(x)
-    x+=1
+for i in range(7):
+    for j in range(4):
+        cc1.append(x)
+        x+=1
+    for j in range(4):
+        cc2.append(x)
+        x+=1
+    for j in range(4):
+        cc3.append(x)
+        x+=1
+    for j in range(4):
+        cc4.append(x)
+        x+=1
+
 kk=0
-for i in range(14):
+for i in range(7):
     for j in range(len(cc1)):
-        lst1[kk]=lst[56*i+cc1[j]]
+        lst1[kk]=lst[112*i+cc1[j]]
         kk+=1
     for j in range(len(cc2)):
-        lst1[kk]=lst[56*i+cc2[j]]
+        lst1[kk]=lst[112*i+cc2[j]]
+        kk+=1
+    for j in range(len(cc2)):
+        lst1[kk]=lst[112*i+cc3[j]]
+        kk+=1
+    for j in range(len(cc2)):
+        lst1[kk]=lst[112*i+cc4[j]]
         kk+=1
 
 
-fg=open("test results 2x2 1.txt",'a+')
+fg=open("test results 4x4 1.txt",'a+')
 #first
 for times in range(10):
     start=time.time()
     print("test: ",times,file=fg)
     print("test: ",times)
     #start of training
-    net=Neural_NetWork(196)
+    net=Neural_NetWork(49)
     lstp=[]
     for e in range(100):
         print("e:",e,"  ","hidden size: ",net.hidden_size,file=fg)
