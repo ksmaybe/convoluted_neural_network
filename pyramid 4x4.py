@@ -179,7 +179,7 @@ for i in range(7):
         kk+=1
 
 
-fg=open("test results 4x4 1.txt",'a+')
+fg=open("test results 4x4 2.txt",'a+')
 #first
 for times in range(10):
     start=time.time()

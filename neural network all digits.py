@@ -1,7 +1,7 @@
 import struct
 import gzip
 import numpy as np
-
+import time
 
 
 lr=0.5   #learning rate
@@ -134,12 +134,13 @@ X=train_lst
 y=train_label
 
 
-fg=open("test results 1x4 1.txt",'a+')
-for times in range(10):
+fg=open("test results all con.txt",'a+')
+for times in range(20):
+    start = time.time()
     print("test: ",times,file=fg)
     print("test: ",times)
     #start of training
-    net=Neural_NetWork(40)
+    net=Neural_NetWork(49)
     lstp=[]
     for e in range(100):
         print("e:",e,"  ","hidden size: ",net.hidden_size,file=fg)
@@ -157,7 +158,7 @@ for times in range(10):
             break
         net.old_error=net.new_error
         net.new_error=0
-
+    end = time.time()
     #draw confusion matrix
     confusion_matrix=np.array([0]*100).reshape(10,10)
     success=0
@@ -183,6 +184,7 @@ for times in range(10):
     print("confusion matrix",file=fg)
     print(confusion_matrix,file=fg)
     print(file=fg)
+    print("time taken: ", end - start, file=fg)
     print("success: ",success,'/',len(test_label),file=fg)
     print("success rate: ",float(success/len(test_label)),file=fg)
     print(file=fg)
@@ -191,73 +193,14 @@ for times in range(10):
     print("confusion matrix")
     print(confusion_matrix)
     print()
+    print("time taken: ", end - start)
     print("success: ",success,'/',len(test_label))
     print("success rate: ",float(success/len(test_label)))
     print()
     print()
 
-for times in range(10):
-    print("test: ",times,file=fg)
-    print("test: ",times)
-    #start of training
-    net=Neural_NetWork(30)
-    lstp=[]
-    for e in range(100):
-        print("e:",e,"  ","hidden size: ",net.hidden_size,file=fg)
-        print("e:",e,"  ","hidden size: ",net.hidden_size)
-        for i in range(len(train_lst)):
-            X=train_lst[i]
-            y=train_label[i]
-            o=net.feed_forward(X)
-            net.train(X,y)
-            net.new_error+=net.o_error
-        lstp.append(net.new_error)
-        print(net.new_error,file=fg)
-        print(net.new_error)
-        if net.old_error-net.new_error<5 and e>10 or net.new_error<1000:  #after 10 epoches and change in sum of error between epoch very small
-            break
-        net.old_error=net.new_error
-        net.new_error=0
-
-    #draw confusion matrix
-    confusion_matrix=np.array([0]*100).reshape(10,10)
-    success=0
-    for i in range(len(test_label)):
-
-        o=net.feed_forward(test_lst[i])
-        x=0
-        y=0
-        for j in range(10):
-            if test_label[i][j]==1:
-                x=j
-                break
-
-        for j in range(len(o)):
-            if max(o)==o[j]:
-                y=j
-                break
-        confusion_matrix[x][y]+=1
-        if x==y:
-            success+=1
-
-    print(file=fg)
-    print("confusion matrix",file=fg)
-    print(confusion_matrix,file=fg)
-    print(file=fg)
-    print("success: ",success,'/',len(test_label),file=fg)
-    print("success rate: ",float(success/len(test_label)),file=fg)
-    print(file=fg)
-    print(file=fg)
-    print()
-    print("confusion matrix")
-    print(confusion_matrix)
-    print()
-    print("success: ",success,'/',len(test_label))
-    print("success rate: ",float(success/len(test_label)))
-    print()
-    print()
-
-for times in range(10):
+for times in range(20):
+    start = time.time()
     print("test: ",times,file=fg)
     print("test: ",times)
     #start of training
@@ -279,7 +222,7 @@ for times in range(10):
             break
         net.old_error=net.new_error
         net.new_error=0
-
+    end = time.time()
     #draw confusion matrix
     confusion_matrix=np.array([0]*100).reshape(10,10)
     success=0
@@ -305,6 +248,7 @@ for times in range(10):
     print("confusion matrix",file=fg)
     print(confusion_matrix,file=fg)
     print(file=fg)
+    print("time taken: ", end - start, file=fg)
     print("success: ",success,'/',len(test_label),file=fg)
     print("success rate: ",float(success/len(test_label)),file=fg)
     print(file=fg)
@@ -313,7 +257,69 @@ for times in range(10):
     print("confusion matrix")
     print(confusion_matrix)
     print()
+    print("time taken: ", end - start)
     print("success: ",success,'/',len(test_label))
     print("success rate: ",float(success/len(test_label)))
     print()
     print()
+
+# for times in range(10):
+#     print("test: ",times,file=fg)
+#     print("test: ",times)
+#     #start of training
+#     net=Neural_NetWork(196)
+#     lstp=[]
+#     for e in range(100):
+#         print("e:",e,"  ","hidden size: ",net.hidden_size,file=fg)
+#         print("e:",e,"  ","hidden size: ",net.hidden_size)
+#         for i in range(len(train_lst)):
+#             X=train_lst[i]
+#             y=train_label[i]
+#             o=net.feed_forward(X)
+#             net.train(X,y)
+#             net.new_error+=net.o_error
+#         lstp.append(net.new_error)
+#         print(net.new_error,file=fg)
+#         print(net.new_error)
+#         if net.old_error-net.new_error<5 and e>10 or net.new_error<1000:  #after 10 epoches and change in sum of error between epoch very small
+#             break
+#         net.old_error=net.new_error
+#         net.new_error=0
+#
+#     #draw confusion matrix
+#     confusion_matrix=np.array([0]*100).reshape(10,10)
+#     success=0
+#     for i in range(len(test_label)):
+#
+#         o=net.feed_forward(test_lst[i])
+#         x=0
+#         y=0
+#         for j in range(10):
+#             if test_label[i][j]==1:
+#                 x=j
+#                 break
+#
+#         for j in range(len(o)):
+#             if max(o)==o[j]:
+#                 y=j
+#                 break
+#         confusion_matrix[x][y]+=1
+#         if x==y:
+#             success+=1
+#
+#     print(file=fg)
+#     print("confusion matrix",file=fg)
+#     print(confusion_matrix,file=fg)
+#     print(file=fg)
+#     print("success: ",success,'/',len(test_label),file=fg)
+#     print("success rate: ",float(success/len(test_label)),file=fg)
+#     print(file=fg)
+#     print(file=fg)
+#     print()
+#     print("confusion matrix")
+#     print(confusion_matrix)
+#     print()
+#     print("success: ",success,'/',len(test_label))
+#     print("success rate: ",float(success/len(test_label)))
+#     print()
+#     print()

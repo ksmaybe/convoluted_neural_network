@@ -166,7 +166,7 @@ for i in range(14):
         kk+=1
 
 
-fg=open("test results 2x2 1.txt",'a+')
+fg=open("test results 2x2 3.txt",'a+')
 #first
 for times in range(10):
     start=time.time()
